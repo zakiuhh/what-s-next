@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Next - Your AI Advisor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <p class="eyebrow">AI-powered advisor <a href="https://github.com/zakiuhh" target="_blank">-dev:zaki</a> </p>
+      <h1>What's <em>next</em><br>for you?</h1>
+      <p class="subhead">Tell us what you just finished. We'll map out your next move - career, learning, projects, and reads.</p>
+    </header>
+
+    <!-- Main form -->
+    <section class="input-section">
+      <div class="input-label">
+        <span>What did you just finish, and what are you upto?</span>
+        <span id="char-count">0/300</span>
+      </div>
+      <form id="main-form">
+        <textarea
+          id="user-input"
+          maxlength="300"
+          placeholder="e.g. I just finished my BSc in Computer Science... or I completed a Python bootcamp... or I wrapped up two years of freelancing in web dev..."
+          rows="4"
+        ></textarea>
+        <br />
+        <button type="submit" id="submit-btn">what's next →</button>
+      </form>
+    </section>
+
+    <!-- Error -->
+    <div id="error" class="hidden"></div>
+
+    <!-- Settings toggle -->
+    <div class="settings-row">
+      <button id="settings-toggle">settings ↓</button>
+    </div>
+
+    <!-- Settings panel -->
+    <div id="settings-panel">
+      <div class="settings-grid">
+
+        <div class="field-group">
+          <label for="groq-key">Groq API Key <span style="color: #d4a853;">(free)</span></label>
+          <input type="password" id="groq-key" placeholder="gsk_..." autocomplete="off" />
+          <p class="field-hint">Get a free key at <a href="https://console.groq.com" target="_blank" style="color: var(--accent);">console.groq.com</a></p>
+        </div>
+
+        <div class="field-group">
+          <label for="provider-select">Provider</label>
+          <select id="provider-select"></select>
+          <p class="field-hint">Choose which provider your key belongs to</p>
+        </div>
+
+        <div class="field-group">
+          <label for="model-select">Model</label>
+          <select id="model-select"></select>
+          <p class="field-hint">Choose which model to use for requests</p>
+        </div>
+
+        <div class="field-group" style="grid-column: 1 / -1;">
+          <label for="byok-key">Your API key</label>
+          <input type="password" id="byok-key" placeholder="paste your key here..." autocomplete="off" style="width: 100%;" />
+        </div>
+
+      </div>
+      <p class="settings-note">Keys are saved only in your browser's localStorage - never sent to any server. Supported: Groq (free), Claude, Kimi, Mistral.</p>
+    </div>
+
+    <!-- Results -->
+    <section id="results" class="hidden">
+      <div class="divider"></div>
+      <p id="summary"></p>
+      <div id="tabs"></div>
+      <div id="cards"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-inner">
+        <span>what's next</span>
+        <span><span class="footer-dot">◆</span> keys stay in your browser</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
