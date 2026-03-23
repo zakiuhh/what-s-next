@@ -52,6 +52,16 @@ window.addEventListener('DOMContentLoaded', () => {
   updateModels();
   const savedModel = localStorage.getItem(STORAGE_KEYS.MODEL);
   if (savedModel && modelSelect) modelSelect.value = savedModel;
+
+  // Ensure settings toggle works by binding after DOM is ready
+  const toggleBtn = document.getElementById('settings-toggle');
+  if (toggleBtn) {
+    // avoid double-binding
+    if (!toggleBtn._wnBound) {
+      toggleBtn.addEventListener('click', (e) => { e.preventDefault(); toggleSettingsPanel(); });
+      toggleBtn._wnBound = true;
+    }
+  }
 });
 
 settingsToggle.addEventListener('click', () => {
@@ -222,3 +232,26 @@ async function updateModels() {
 function hideResults() { resultsArea.classList.add('hidden'); }
 function hideError()   { errorEl.classList.add('hidden'); errorEl.textContent = ''; }
 function showError(msg){ errorEl.textContent = `⚠ ${msg}`; errorEl.classList.remove('hidden'); }
+
+// Robust settings toggle: use event delegation in case initial element refs were null
+function toggleSettingsPanel() {
+  const panel = document.getElementById('settings-panel');
+  const toggle = document.getElementById('settings-toggle');
+  if (!panel || !toggle) return;
+  const isOpen = panel.classList.toggle('open');
+  toggle.textContent = isOpen ? 'close settings ↑' : 'settings ↓';
+  toggle.setAttribute('aria-expanded', String(isOpen));
+}
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest && e.target.closest('#settings-toggle');
+  if (btn) toggleSettingsPanel();
+});
+
+// Show uncaught errors in the UI to help debugging
+window.addEventListener('error', (ev) => {
+  try { showError(ev.message || String(ev)); } catch (e) { /* ignore */ }
+});
+window.addEventListener('unhandledrejection', (ev) => {
+  try { showError(ev.reason?.message || JSON.stringify(ev.reason) || 'Unhandled promise rejection'); } catch (e) { /* ignore */ }
+});
